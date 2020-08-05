@@ -1,0 +1,7 @@
+outputdir   = doc
+outputformats = HTML
+headerdirs  = .
+sourcedirs  = .
+
+sources.fileextensions = "*.cpp"
+headers.fileextensions = "*.h"

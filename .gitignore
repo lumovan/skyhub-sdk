@@ -1,0 +1,4 @@
+*.qbs.user
+*.so
+build-arm/
+lib/
