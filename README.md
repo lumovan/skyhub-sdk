@@ -1,4 +1,4 @@
-SkyHub SDK v2.5.0
+SkyHub SDK v2.6.0
 =================
 
 The SkyHub SDK allows to extend SkyHub solution capabilities by adding custom payloads.
@@ -10,7 +10,7 @@ Prerequisites
 
 * Latest UgCS v3: https://www.ugcs.com/download
 * Latest UgCS-CPM v3: https://industrial.ugcs.com/dl/s/ugcs-cpm-windows
-* SkyHub firmware v2.5.0: https://industrial.ugcs.com/dl/release/skyhub-armhf-2.5.0.1191.tar.gz
+* SkyHub firmware v2.6.0: https://industrial.ugcs.com/dl/release/skyhub-armhf-2.6.0.1282.tar.gz
 * Host PC with Ubuntu OS (Ubuntu 20.04 is recommended) or Windows Subsystem for Linux (WSL) with pre-installed Docker software
 
 Building

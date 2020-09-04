@@ -137,8 +137,7 @@ struct TerrainFollowingStatusHeader
     double safeAltitude;
     double missionVelocity;
     double returnVelocity;
-    TerrainFollowingStatusStateId state;
-    uint8_t isEnabled;
+    AlgorithmState state;
 
     friend QDataStream &operator <<(QDataStream &stream, const TerrainFollowingStatusHeader &data);
 };
@@ -196,14 +195,14 @@ struct SimpleCommandHeader {
     }
 };
 
-struct PointMeasurementsHeader {
+struct GrasshopperHeader {
     float targetAltitude;
     float verticalSpeed;
     int hoverTime;
-    PointMeasurementsStatusId status;
+    AlgorithmState state;
 
-    friend QDataStream &operator <<(QDataStream &stream, const PointMeasurementsHeader &data);
-    friend QDataStream &operator >>(QDataStream &stream, PointMeasurementsHeader &data);
+    friend QDataStream &operator <<(QDataStream &stream, const GrasshopperHeader &data);
+    friend QDataStream &operator >>(QDataStream &stream, GrasshopperHeader &data);
 };
 
 struct ConfigureTerrainFollowingHeader {
@@ -216,7 +215,7 @@ struct ConfigureTerrainFollowingHeader {
 };
 
 typedef Message<SimpleCommandHeader> GprControlPayload;
-typedef Message<PointMeasurementsHeader> ConfigurePointMeasurements;
+typedef Message<GrasshopperHeader> ConfigureGrasshopper;
 typedef Message<SimpleCommandHeader> PowerControlPayload;
 typedef Message<ConfigureTerrainFollowingHeader> ConfigureTerrainFollowingPayload;
 

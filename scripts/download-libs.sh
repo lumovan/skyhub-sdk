@@ -27,4 +27,5 @@ VERSION_RELEASE=$(sed -n "s/const release *= *\([^'\"]*\) /\1/p" $VERSION_FILE)
 VERSION=$VERSION_MAJOR.$VERSION_MINOR.$VERSION_RELEASE
 
 mkdir -p lib
+rm -fv lib/index.txt
 wget -P lib -i https://industrial.ugcs.com/dl/deps/skyhub-sdk-$VERSION/index.txt -nc -nv

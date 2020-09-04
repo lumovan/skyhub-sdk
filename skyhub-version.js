@@ -1,3 +1,3 @@
 const major = 2
-const minor = 5
+const minor = 6
 const release = 0

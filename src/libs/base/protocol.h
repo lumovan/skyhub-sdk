@@ -31,6 +31,7 @@ enum PayloadId : uint8_t
     GasDetector         = 0x02,
     Altimeter           = 0x04,
     EchoSounder         = 0x06,
+    MetalDetector       = 0x07,
 
     UserPayloadFirst    = 0xC0,
     UserPayloadLast     = 0xDF,
@@ -71,7 +72,7 @@ enum MonitorMessageId : uint16_t
     MetalDetectorValueMessageId = 0x05,
     TerrainFollowingStatusMessageId = 0x06,
     AltimeterStatusMessageId = 0x07,
-    PMStatusMessageId = 0x08,
+    GHStatusMessageId = 0x08,
     GasDetectorStatusMessageId = 0x09,
     EchoSounderStatusMessageId = 0x0A,
     FirmwareMessageId = 0x0B,
@@ -84,7 +85,7 @@ enum MonitorMessageId : uint16_t
     GprControlMessageId = 0x83,
     ConfigureTerrainFollowingMessageId = 0x84,
     StartTerrainFollowingMessageId = 0x85,
-    ConfigurePointMeasurementsMessageId = 0x86,
+    ConfigureGrasshopperMessageId = 0x86,
     PayloadPowerMessageId = 0x87,
 
     // Settings
@@ -107,18 +108,6 @@ enum PayloadStatusLevel : uint8_t
     Inactive = 0,
     Normal = 1,
     Warning = 2
-};
-
-enum TerrainFollowingStatusStateId : uint8_t
-{
-    StoppedState = 0,
-    RunningState = 1,
-};
-
-enum PointMeasurementsStatusId : uint8_t
-{
-    Stopped= 0,
-    Enabled  = 1
 };
 
 enum AutopilotStatusId : uint8_t

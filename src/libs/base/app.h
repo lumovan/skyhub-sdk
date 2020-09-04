@@ -155,9 +155,11 @@ enum MissionState : uint8_t {
     RequestStart = 0,
     NotStarted = 1,
     Running = 2,
-    Paused = 3,
-    Resumed = 4,
-    Completed = 5
+    Paused = 3,         // Paused by user
+    Interrupted = 4,    // Interrupted from code (Ground not visible or altimeter error)
+    Resumed = 5,
+    Completed = 6,
+    Waiting = 7         // Waiting for action from user
 };
 
 enum AlgorithmState : uint8_t {
@@ -297,13 +299,16 @@ public:
     REGISTER_F32(hdop)
     REGISTER_U16(nsv)
 
-    // Terrain following data
+    // Algorithm data
     REGISTER_BOOL(flightControlledApp)
     REGISTER_U8(ttfMissionState)
     REGISTER_U8(ttfAlgorithmState)
+    REGISTER_U8(ghMissionState)
+    REGISTER_U8(ghAlgorithmState)
     // TODO: Legacy to write additional title in GPR SEG-Y log
     REGISTER_BOOL(isTerrainFollowingModeEnabled)
     REGISTER_INT(waypointIndex)
+    REGISTER_INT(dropWaypointIndex)
     REGISTER_F64(targetYaw)
     REGISTER_TOPIC(destination, GeoCoordinates)
     REGISTER_F64(nextPointHeight)
@@ -350,6 +355,10 @@ public:
     REGISTER_F32(GAS_DETECTOR_MAX_CONCENTRATION_PPM)
     REGISTER_F32(GAS_DETECTOR_ZERO_LEVEL_PPM)
 
+    // Common Metal Detector Settings
+    REGISTER_F32(METAL_DETECTOR_MIN_OUTPUT_VALUE_MV)
+    REGISTER_F32(METAL_DETECTOR_MAX_OUTPUT_VALUE_MV)
+
     // Common Echosounder Settings
     REGISTER_F32(ECHOSOUNDER_MIN_DEPTH_M)
     REGISTER_F32(ECHOSOUNDER_MAX_DEPTH_M)
@@ -367,9 +376,6 @@ public:
     REGISTER_STR(MAV_CONNECTION_TYPE)  // Uart or Tcp
     REGISTER_STR(MAV_SERIAL_DEVICE)
     REGISTER_INT(MAV_BAUD_RATE)
-    REGISTER_U16(MAV_VSM_NETWORK_ID)
-    REGISTER_U16(MAV_VSM_SYSTEM_ID)
-    REGISTER_U16(MAV_VSM_COMPONENT_ID)
     REGISTER_U16(MAV_SYSTEM_ID)
     REGISTER_U16(MAV_COMPONENT_ID)
     REGISTER_INT(MAV_SENDING_PERIOD_MS)
@@ -394,6 +400,13 @@ public:
     REGISTER_INT(TF_HYSTERESIS_MODE)
     REGISTER_F32(TF_HYSTERESIS_ABSOLUTE_M)
     REGISTER_F32(TF_HYSTERESIS_RELATIVE_PCT)
+
+    // Grasshopper Setting
+    REGISTER_STR(GH_ALTITUDE_SOURCE)
+    REGISTER_F32(GH_VERTICAL_SPEED_MPS)
+    REGISTER_F32(GH_TARGET_ALTITUDE_M)
+    REGISTER_INT(GH_HOVER_TIME_S)
+    REGISTER_BOOL(GH_DEBUG_LOG)
 
     // Altimeter Simulator Settings
     REGISTER_INT(ALTIMETER_SIMULATOR_PERIOD_MS)
@@ -454,6 +467,7 @@ public:
     REGISTER_U16(RADSYS_ZOND_TIME_RANGE_NS_2)
     REGISTER_STR(RADSYS_ZOND_FILTER_2)
     REGISTER_U16(RADSYS_ZOND_PULSE_DELAY_2)
+    REGISTER_BOOL(RADSYS_ZOND_RAW_LOG)
 
     REGISTER_F64(RADSYS_ZOND_OFFSET_FORWARD_M_1)
     REGISTER_F64(RADSYS_ZOND_OFFSET_FORWARD_M_2)
@@ -493,6 +507,16 @@ public:
     REGISTER_BOOL(ECHOLOGGER_ECT_RAW_LOG)
     REGISTER_F32(ECHOLOGGER_ECT_MIN_SENSOR_DEPTH_M)
     REGISTER_F32(ECHOLOGGER_ECT_MAX_SENSOR_ANGLE_DEG)
+
+    // Geonics Simulator Settings
+    REGISTER_STR(GEONICS_SIMULATOR_SERIAL_DEVICE)
+    REGISTER_STR(GEONICS_SIMULATOR_MODE)
+
+    // Geonics EM 61 Metal Detector Settings
+    REGISTER_STR(GEONICS_EM_61_SERIAL_DEVICE)
+    REGISTER_INT(GEONICS_EM_61_BAUD_RATE)
+    REGISTER_BOOL(GEONICS_EM_61_RAW_LOG)
+    REGISTER_BOOL(GEONICS_EM_61_GAIN)
 
     // Unstable features (add below)
     // Example: REGISTER_BOOL(UNSTABLE_MY_FEATURE)
