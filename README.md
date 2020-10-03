@@ -1,6 +1,9 @@
 SkyHub SDK v2.6.0
 =================
 
+[![Build Status](https://github.com/ugcs/skyhub-sdk/workflows/Build/badge.svg)](https://github.com/ugcs/skyhub-sdk/actions?query=workflow%3ABuild)
+[![Publish Status](https://github.com/ugcs/skyhub-sdk/workflows/Publish/badge.svg)](https://github.com/ugcs/skyhub-sdk/actions?query=workflow%3APublish)
+
 The SkyHub SDK allows to extend SkyHub solution capabilities by adding custom payloads.
 
 The SDK consists of source code required to add a custom payload plugin to the SkyHub firmware as well as instructions how to do it.

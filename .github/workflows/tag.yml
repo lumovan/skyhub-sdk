@@ -1,0 +1,45 @@
+name: Publish
+
+on:
+  push:
+    tags: ['*.*.*']
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    container: ugcs/digi-dey
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build for ARM
+        run: |
+          ./scripts/download-libs.sh
+          /root/setup-armv7ve.sh
+          qbs build -d armhf profile:armv7ve qbs.defaultBuildVariant:release
+          wget https://industrial.ugcs.com/dl/release/skyhub-armhf-2.6.0.1282.tar.gz
+          tar -xvf skyhub-armhf-*.tar.gz
+          rm -fv skyhub-armhf-*.tar.gz
+          cp -fv armhf/default/install-root/usr/local/lib/plugins/payloads/libpayload-example.so ./skyhub-armhf-*/usr/local/lib/plugins/payloads/
+          tar -czvf skyhub-armhf-2.6.0.1282.tar.gz skyhub-armhf-*
+
+      - name: Create Release
+        id: release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Publish
+        id: publish
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./skyhub-armhf-2.6.0.1282.tar.gz
+          asset_name: skyhub-armhf-2.6.0.1282.tar.gz
+          asset_content_type: application/gzip

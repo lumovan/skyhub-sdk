@@ -1,0 +1,18 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    container: ugcs/digi-dey
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build for ARM
+        run: |
+          ./scripts/download-libs.sh
+          /root/setup-armv7ve.sh
+          qbs build -d armhf profile:armv7ve qbs.defaultBuildVariant:debug
