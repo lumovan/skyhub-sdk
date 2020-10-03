@@ -152,14 +152,13 @@ enum ScalarSensorStatusId : uint8_t {
 };
 
 enum MissionState : uint8_t {
-    RequestStart = 0,
-    NotStarted = 1,
-    Running = 2,
-    Paused = 3,         // Paused by user
-    Interrupted = 4,    // Interrupted from code (Ground not visible or altimeter error)
-    Resumed = 5,
-    Completed = 6,
-    Waiting = 7         // Waiting for action from user
+    NotStarted = 0,
+    Running = 1,
+    Paused = 2,         // Paused by user
+    Interrupted = 3,    // Interrupted from code (Ground not visible or altimeter error)
+    Resumed = 4,
+    Completed = 5,
+    Waiting = 6        // Waiting for action from user
 };
 
 enum AlgorithmState : uint8_t {
@@ -167,6 +166,12 @@ enum AlgorithmState : uint8_t {
     WaitingConfigure  = 1,
     Configured = 2,
     Activated = 3
+};
+
+enum FutureMissionAction : uint8_t {
+    Other = 0,
+    RequestStart = 1,
+    RequestPause = 2
 };
 
 struct GeoCoordinates
@@ -254,6 +259,7 @@ public:
     App(int &argc, char **argv);
 
     void loadSettings(const QString &fileName);
+    void syncSettings();
 
     QVariant settingValue(const char *group, const char *param, const QVariant &defaultValue);
     int setting_int(const char *group, const char *param, const QVariant &defaultValue = QVariant()) { return settingValue(group, param, defaultValue).toInt(); }
@@ -305,6 +311,7 @@ public:
     REGISTER_U8(ttfAlgorithmState)
     REGISTER_U8(ghMissionState)
     REGISTER_U8(ghAlgorithmState)
+    REGISTER_U8(ttfRequestMissionAction)
     // TODO: Legacy to write additional title in GPR SEG-Y log
     REGISTER_BOOL(isTerrainFollowingModeEnabled)
     REGISTER_INT(waypointIndex)
@@ -315,6 +322,7 @@ public:
 
     // Payloads data
     REGISTER_TOPIC(SegYLogTraceNumber, SegYTraceNumber)
+    REGISTER_TOPIC(rawAltimeterValue, ScalarSensorData)
     REGISTER_TOPIC(altimeterValue, ScalarSensorData)
     REGISTER_TOPIC(filteredAltimeterValue, ScalarSensorData)
     REGISTER_TOPIC(gprConnected, PayloadConnectedData)
@@ -349,6 +357,7 @@ public:
     REGISTER_F32(ALTIMETER_MAX_ALTITUDE_M)
     REGISTER_F32(ALTIMETER_ZERO_LEVEL_M)
     REGISTER_INT(ALTIMETER_LP_FILTER_LENGTH)
+    REGISTER_INT(ALTIMETER_IGNORE_ERRORS)
 
     // Common Gas Detector Settings
     REGISTER_F32(GAS_DETECTOR_MIN_CONCENTRATION_PPM)
@@ -384,7 +393,6 @@ public:
     // Terrain Following Settings
     // TODO: depreciated TF_SENSOR_X_OFFSET/ TF_SENSOR_Y_OFFSET
     // They were used to compensate the drone position during measurement of height
-    REGISTER_F32(TF_MAX_FLIGHT_SPEED_MPS)
     REGISTER_F32(TF_FLIGHT_SPEED_MPS)
     REGISTER_F32(TF_FAIL_SAFE_ALTITUDE_M)
     REGISTER_F32(TF_TARGET_ALTITUDE_M)
@@ -395,11 +403,13 @@ public:
     REGISTER_STR(TF_TURN_TYPE)
     REGISTER_STR(TF_ALTITUDE_SOURCE)
     REGISTER_BOOL(TF_DEBUG_LOG)
-    // Hysteresis settings
-    // Modes: 0 = no hysteresis, 1 = absolute hysteresis, 2 = relative hysteresis
-    REGISTER_INT(TF_HYSTERESIS_MODE)
-    REGISTER_F32(TF_HYSTERESIS_ABSOLUTE_M)
-    REGISTER_F32(TF_HYSTERESIS_RELATIVE_PCT)
+    REGISTER_F32(TF_ACCEPTANCE_RADIUS_M)
+
+    // Used to switch between attitude and position contol
+    REGISTER_BOOL(TF_VELOCITY_CONTROL)
+    REGISTER_F32(TF_POS_P)
+    REGISTER_F32(TF_ACCEL_XY)
+    REGISTER_BOOL(TF_POS_CTRL_DEBUG_LOG)
 
     // Grasshopper Setting
     REGISTER_STR(GH_ALTITUDE_SOURCE)
@@ -511,12 +521,15 @@ public:
     // Geonics Simulator Settings
     REGISTER_STR(GEONICS_SIMULATOR_SERIAL_DEVICE)
     REGISTER_STR(GEONICS_SIMULATOR_MODE)
+    REGISTER_F32(GEONICS_SIMULATOR_FREQUENCY_HZ)
 
     // Geonics EM 61 Metal Detector Settings
+    REGISTER_STR(GEONICS_EM_61_CONNECTION_TYPE)
     REGISTER_STR(GEONICS_EM_61_SERIAL_DEVICE)
+    REGISTER_STR(GEONICS_EM_61_BLUETOOTH_NAME)
     REGISTER_INT(GEONICS_EM_61_BAUD_RATE)
+    REGISTER_INT(GEONICS_EM_61_START_DELAY_S)
     REGISTER_BOOL(GEONICS_EM_61_RAW_LOG)
-    REGISTER_BOOL(GEONICS_EM_61_GAIN)
 
     // Unstable features (add below)
     // Example: REGISTER_BOOL(UNSTABLE_MY_FEATURE)

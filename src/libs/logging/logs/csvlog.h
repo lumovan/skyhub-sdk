@@ -34,7 +34,7 @@ public:
     void addParameter(const QString &name, const QString &group = "");
     void addParameters(const QStringList &names, const QString &group = "");
 
-    void setValue(const QString &name, const QString &value, const QString &group = "");
+    void setValue(QString name, QString value, QString group = "");
 
     template<class T>
     void setValue(const QString &name, T value, const QString &group = "",

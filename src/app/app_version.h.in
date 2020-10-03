@@ -15,30 +15,28 @@
 **
 ****************************************************************************/
 
-import qbs
+#ifndef APP_VERSION_H
+#define APP_VERSION_H
 
-DynamicLibrary {
-    name: "payload-example"
+#define APP_VERSION_MAJOR 0
+#define APP_VERSION_MINOR 0
+#define APP_VERSION_RELEASE 0
+#define APP_VERSION_BUILD 0
 
-    Depends { name: "cpp" }
-    Depends { name: "Qt"; submodules: ["core"] }
-    Depends { name: "base" }
-    Depends { name: "connections" }
-    Depends { name: "logging" }
-    Depends { name: "app_version" }
+#define APP_NAME "app"
+#define APP_VERSION "0.0.0"
+#define APP_VERSION_LONG "0.0.0.0"
+#define APP_DATE "01.01.1970"
 
-    cpp.cxxLanguageVersion: "c++11"
-    cpp.cxxFlags: ["-Werror"]
+#define APP_YEAR 1970
 
-    files: [
-        "*.cpp",
-        "*.h"
-    ]
-
-    Group {
-        fileTagsFilter: product.type
-        qbs.install: true
-        qbs.installDir: "plugins/payloads"
-        qbs.installPrefix: "/usr/local/lib"
-    }
+#ifdef __cplusplus
+namespace C {
+const char * const AppName          = APP_NAME;
+const char * const AppVersion       = APP_VERSION;
+const char * const AppVersionLong   = APP_VERSION_LONG;
+const char * const AppDate          = APP_DATE;
 }
+#endif
+
+#endif // APP_VERSION_H

@@ -20,8 +20,11 @@ import "skyhub-version.js" as Version
 
 Project {
     name: "skyhub-sdk"
-    property string fullVersion: Version.major + "." + Version.minor + "." + Version.release
-    property path libDir: "lib"
+    property int versionMajor: Version.major
+    property int versionMinor: Version.minor
+    property int versionRelease: Version.release
+    property string fullVersion: versionMajor + "." + versionMinor + "." + versionRelease
+    property string libDir: "lib"
 
     property path sourcePath: path + "/src"
     property path headersBasePath: sourcePath + "/libs"
@@ -30,7 +33,11 @@ Project {
     minimumQbsVersion: "1.6.0"
     qbs.installPrefix: ""
 
-    references: payloadPath
+
+    references: [
+        sourcePath + "/app/app_version.qbs",
+        payloadPath
+    ]
 
     Product {
         name: "connections"
@@ -70,3 +77,5 @@ Project {
         }
     }
 }
+
+

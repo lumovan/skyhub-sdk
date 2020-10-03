@@ -138,6 +138,7 @@ struct TerrainFollowingStatusHeader
     double missionVelocity;
     double returnVelocity;
     AlgorithmState state;
+    MissionState missionState;
 
     friend QDataStream &operator <<(QDataStream &stream, const TerrainFollowingStatusHeader &data);
 };

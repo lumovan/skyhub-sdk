@@ -20,6 +20,7 @@
 
 #include <ipayloadplugin.h>
 #include <app.h>
+#include <app_version.h>
 
 class PayloadExample : public IPayloadPlugin
 {
@@ -38,6 +39,7 @@ public:
     ConnectionType connectionType() const override;
     PayloadId payloadId() const override;
     QString name() const override;
+    QString version() const override { return C::AppVersionLong; }
 
     QString id() const override;
 

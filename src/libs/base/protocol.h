@@ -87,6 +87,7 @@ enum MonitorMessageId : uint16_t
     StartTerrainFollowingMessageId = 0x85,
     ConfigureGrasshopperMessageId = 0x86,
     PayloadPowerMessageId = 0x87,
+    PauseTerrainFollowingMessageId = 0x88,
 
     // Settings
     SettingsMessageId = 0x90,         // Send current setting to mobile

@@ -39,6 +39,7 @@ public:
     virtual ConnectionType connectionType() const = 0;
     virtual PayloadId payloadId() const = 0;
     virtual QString name() const { return ""; }
+    virtual QString version() const = 0;
 
 signals:
     void dataReceived(MessageId messageId, PayloadId payloadId,
