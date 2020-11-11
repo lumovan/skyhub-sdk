@@ -294,6 +294,7 @@ public:
 
     // Vehicle data
     REGISTER_TOPIC(altitude, ScalarSensorData)
+    REGISTER_TOPIC(rtkAltitude, ScalarSensorData)
     REGISTER_F32(roll)
     REGISTER_F32(pitch)
     REGISTER_F32(yaw)
